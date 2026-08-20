@@ -1,0 +1,11 @@
+node_modules/
+.next/
+out/
+.env
+.env.local
+__pycache__/
+.venv/
+venv/
+*.pyc
+ml/artifacts/*.pt
+!ml/artifacts/.gitkeep
