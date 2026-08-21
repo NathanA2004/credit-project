@@ -12,6 +12,7 @@ export type RankableCard = {
   paymentDueDay: number;
   gracePeriodDays?: number;
   cashbackCategory: CashbackCategory;
+  plaidAccountId?: string;
 };
 
 export function maskedCardNumber(lastFourDigits: string): string {

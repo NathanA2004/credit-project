@@ -2,36 +2,8 @@ import { PrismaClient, AlertStatus } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-/**
- * Offline mock fallback for Plaid `/liabilities/get` fields.
- * Used when the app runs without PLAID_* API keys.
- */
-export const mockPlaidLiabilities = [
-  {
-    plaidAccountId: "plaid-sandbox-chase-sapphire",
-    institutionName: "Chase",
-    lastFourDigits: "4242",
-    nextPaymentDueDate: "2026-08-21",
-    lastStatementBalance: 2340.5,
-    minimumPaymentAmount: 47.0,
-  },
-  {
-    plaidAccountId: "plaid-sandbox-amex-cash-magnet",
-    institutionName: "Amex",
-    lastFourDigits: "1008",
-    nextPaymentDueDate: "2026-08-27",
-    lastStatementBalance: 6120.0,
-    minimumPaymentAmount: 125.0,
-  },
-  {
-    plaidAccountId: "plaid-sandbox-rbc-avion",
-    institutionName: "RBC",
-    lastFourDigits: "8891",
-    nextPaymentDueDate: "2026-09-10",
-    lastStatementBalance: 450.0,
-    minimumPaymentAmount: 25.0,
-  },
-] as const;
+/** Offline mock fallback for Plaid `/liabilities/get` when PLAID_* keys are missing. */
+export { mockPlaidLiabilities } from "../lib/plaid/mock-liabilities";
 
 const mockUser = {
   email: "alex.rivera@example.com",

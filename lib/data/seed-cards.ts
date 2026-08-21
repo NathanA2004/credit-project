@@ -18,6 +18,7 @@ export const seedCards: RankableCard[] = [
       groceries: 0.01,
       default: 0.01,
     },
+    plaidAccountId: "plaid-sandbox-chase-sapphire",
   },
   {
     id: "amex-cash-magnet",
@@ -36,6 +37,7 @@ export const seedCards: RankableCard[] = [
       dining: 0.015,
       default: 0.015,
     },
+    plaidAccountId: "plaid-sandbox-amex-cash-magnet",
   },
   {
     id: "rbc-avion",
@@ -54,6 +56,7 @@ export const seedCards: RankableCard[] = [
       groceries: 0.01,
       default: 0.01,
     },
+    plaidAccountId: "plaid-sandbox-rbc-avion",
   },
 ];
 

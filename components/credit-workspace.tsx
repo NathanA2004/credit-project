@@ -5,6 +5,7 @@ import { Plus } from "lucide-react";
 
 import { AddCardDialog } from "@/components/add-card-dialog";
 import { CardManager } from "@/components/card-manager";
+import { ConnectPlaidButton } from "@/components/connect-plaid-button";
 import { DashboardOverview } from "@/components/dashboard-overview";
 import { PaymentCalendar } from "@/components/payment-calendar";
 import { PurchaseAdvisor } from "@/components/purchase-advisor";
@@ -43,10 +44,13 @@ export function CreditWorkspace({
               </p>
             </div>
             <div className="flex flex-col items-start gap-2 sm:items-end">
-              <Button onClick={() => setAddOpen(true)} type="button">
-                <Plus />
-                Add custom card
-              </Button>
+              <div className="flex flex-wrap items-start gap-2">
+                <ConnectPlaidButton cards={cards} onCardsChange={setCards} />
+                <Button onClick={() => setAddOpen(true)} type="button">
+                  <Plus />
+                  Add custom card
+                </Button>
+              </div>
               <p className="text-sm text-muted-foreground">Demo data · last four digits only</p>
             </div>
           </header>
