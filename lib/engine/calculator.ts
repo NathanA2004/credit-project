@@ -92,6 +92,46 @@ export function lastStatementClose(statementClosingDay: number, referenceDate: D
   return clampDay(previous.year, previous.monthIndex, statementClosingDay);
 }
 
+export function nextStatementClose(statementClosingDay: number, referenceDate: Date): Date {
+  const ref = startOfDay(referenceDate);
+  const thisClose = clampDay(ref.getFullYear(), ref.getMonth(), statementClosingDay);
+  if (thisClose.getTime() >= ref.getTime()) {
+    return thisClose;
+  }
+  const next = shiftMonth(ref.getFullYear(), ref.getMonth(), 1);
+  return clampDay(next.year, next.monthIndex, statementClosingDay);
+}
+
+export type StatementCycle = {
+  statementClose: Date;
+  dueDate: Date;
+};
+
+export function listStatementCycles(
+  statementClosingDay: number,
+  paymentDueDay: number,
+  rangeStart: Date,
+  rangeEnd: Date
+): StatementCycle[] {
+  const start = startOfDay(rangeStart);
+  const end = startOfDay(rangeEnd);
+  const from = shiftMonth(start.getFullYear(), start.getMonth(), -1);
+  const to = shiftMonth(end.getFullYear(), end.getMonth(), 1);
+  const cycles: StatementCycle[] = [];
+
+  for (let abs = from.year * 12 + from.monthIndex; abs <= to.year * 12 + to.monthIndex; abs += 1) {
+    const year = Math.floor(abs / 12);
+    const monthIndex = abs % 12;
+    const statementClose = clampDay(year, monthIndex, statementClosingDay);
+    const dueDate = dueDateForStatementMonth(year, monthIndex, statementClosingDay, paymentDueDay);
+    if (dueDate.getTime() >= start.getTime() && statementClose.getTime() <= end.getTime()) {
+      cycles.push({ statementClose, dueDate });
+    }
+  }
+
+  return cycles;
+}
+
 export function calculateRemainingGracePeriod(dueDate: Date, referenceDate: Date): number {
   const due = startOfDay(dueDate).getTime();
   const ref = startOfDay(referenceDate).getTime();

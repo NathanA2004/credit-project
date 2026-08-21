@@ -1,3 +1,5 @@
+import { Plus } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -7,17 +9,12 @@ import {
   formatMoney,
   formatPercent,
   getCardPresentation,
+  getCardSkin,
   ordinal,
 } from "@/lib/dashboard";
 import type { RankableCard } from "@/lib/engine/calculator";
 import { maskedCardNumber } from "@/lib/engine/calculator";
 import { cn } from "@/lib/utils";
-
-const cardSkins: Record<string, string> = {
-  Chase: "from-slate-800 via-blue-900 to-slate-950",
-  Amex: "from-sky-900 via-slate-800 to-cyan-950",
-  RBC: "from-rose-900 via-slate-900 to-zinc-950",
-};
 
 function utilizationBarClass(utilization: number): string {
   if (utilization >= 0.7) return "bg-red-500";
@@ -28,9 +25,11 @@ function utilizationBarClass(utilization: number): string {
 export function CardManager({
   cards,
   referenceDate,
+  onAddCard,
 }: {
   cards: RankableCard[];
   referenceDate: Date;
+  onAddCard?: () => void;
 }) {
   return (
     <section className="space-y-4">
@@ -48,7 +47,7 @@ export function CardManager({
               <div
                 className={cn(
                   "bg-gradient-to-br p-5 text-white",
-                  cardSkins[card.institutionName] ?? "from-slate-800 to-slate-950"
+                  getCardSkin(card.institutionName)
                 )}
               >
                 <p className="text-xs uppercase tracking-[0.2em] text-white/70">{card.institutionName}</p>
@@ -97,6 +96,18 @@ export function CardManager({
             </Card>
           );
         })}
+        {onAddCard ? (
+          <button
+            className="flex min-h-64 flex-col items-center justify-center gap-2 rounded-xl border border-dashed bg-card px-6 text-center text-sm text-muted-foreground shadow-sm transition-colors hover:border-foreground/30 hover:bg-muted/40 hover:text-foreground"
+            onClick={onAddCard}
+            type="button"
+          >
+            <span className="flex size-9 items-center justify-center rounded-full border">
+              <Plus className="h-4 w-4" />
+            </span>
+            Add a custom card
+          </button>
+        ) : null}
       </div>
     </section>
   );
